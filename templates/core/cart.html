@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+<section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+    <div class="container">
+        <h2>cart</h2>
+    </div>
+</section>
+<section class="inner-section checkout-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert-info">
+                    <p>Returning customer? <a href="login.html">Click here to login</a></p>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="account-card">
+                    <div class="account-title">
+                        <h4>Your order</h4>
+                    </div>
+                    <div class="account-content">
+                        <div class="table-scroll">
+                            <table class="table-list">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Serial</th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">quantity</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                        <td class="table-serial">
+                                            <h6>{{item.id}}</h6>
+                                        </td>
+                                        <td class="table-image"><img src="{{item.product.imageURL}}"
+                                                alt="product"></td>
+                                        <td class="table-name">
+                                            <h6>{{item.product.name}}</h6>
+                                        </td>
+                                        <td class="table-price">
+                                            <h6>${{item.product.price|floatformat:2}}<small>/piece</small></h6>
+                                        </td>
+                                        <td class="table-quantity">
+                                            <h6>x{{item.qty}}</h6>
+                                        </td>
+                                        <td class="table-brand">
+                                            <h6>${{item.get_total|floatformat:2}}</h6>
+                                        </td>
+                                        <td class="table-action">
+                                            <a data-product="{{item.product.id}}" data-action="remove" class="trash update-cart"  title="Decrease quantity">
+                                                <i class="icofont-minus"></i>
+                                            </a>
+                                            <a data-product="{{item.product.id}}" data-action="add" class="view update-cart" title="Increase quantity"  
+                                                data-bs-target="#product-view">
+                                                <i  class="fas fa-plus"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="chekout-coupon">
+                            <ul>
+                                <li><span>Total items: </span><span> x{{order.get_cart_items}}</span></li>
+                                <li><span>Total Price:</span><span>${{order.get_cart_total|floatformat:2}}</span></li>
+                            </ul>
+                        </div>
+                        <div class="checkout-proced"><a href="{% url 'core:checkout' %}" class="btn btn-inline">proceed to checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
